@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50 Golden Years - Anniversary Celebration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0c29;
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating hearts animation */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: float-up 15s infinite ease-in;
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        .main-wrapper {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 40px);
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        .golden-ring {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .golden-ring::before,
+        .golden-ring::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 6px solid #FFD700;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .golden-ring::before {
+            left: 0;
+        }
+
+        .golden-ring::after {
+            right: 0;
+        }
+
+        .anniversary-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #1a1a1a;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 38px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 18px;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #4a5568;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        label .required {
+            color: #e53e3e;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 140px;
+            line-height: 1.6;
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 13px;
+            color: #a0aec0;
+            margin-top: 5px;
+        }
+
+        .relationship-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .relationship-option {
+            position: relative;
+        }
+
+        .relationship-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .relationship-option label {
+            display: block;
+            padding: 12px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .relationship-option input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .relationship-option label:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .photo-upload {
+            border: 3px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+
+        .photo-upload:hover {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .photo-upload.dragover {
+            border-color: #667eea;
+            background: #e6f0ff;
+        }
+
+        .photo-preview {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .photo-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .submit-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+            max-width: 350px;
+            animation: slideInRight 0.4s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .notification.success {
+            border-left: 5px solid #48bb78;
+        }
+
+        .notification.show {
+            display: block;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notification-text {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .messages-section {
+            margin-top: 50px;
+            padding-top: 40px;
+            border-top: 3px solid #e2e8f0;
+        }
+
+        .messages-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .messages-title {
+            color: #2d3748;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 6px 14px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .message-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #e2e8f0;
+            position: relative;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .message-author {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .relationship-badge {
+            background: #edf2f7;
+            color: #4a5568;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .message-text {
+            color: #4a5568;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .message-photo {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .message-photo img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .message-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .message-time {
+            color: #a0aec0;
+            font-size: 13px;
+        }
+
+        .heart-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #a0aec0;
+        }
+
+        .heart-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .heart-btn.loved {
+            color: #e53e3e;
+        }
+
+        .no-messages {
+            text-align: center;
+            color: #a0aec0;
+            padding: 60px 20px;
+            font-style: italic;
+            font-size: 16px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 35px 25px;
+                border-radius: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .relationship-options {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .admin-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+
+        .admin-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .admin-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .admin-menu {
+            display: none;
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 20px;
+            min-width: 250px;
+        }
+
+        .admin-menu.show {
+            display: block;
+            animation: slideInUp 0.3s ease;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .admin-option {
+            padding: 12px;
+            margin: 5px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-option:hover {
+            background: #f7fafc;
+        }
+
+        .export-btn {
+            width: 100%;
+            padding: 10px;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <div class="main-wrapper">
+        <div class="container">
+            <div class="header">
+                <div class="golden-ring"></div>
+                <div class="anniversary-badge">✨ 50 GOLDEN YEARS ✨</div>
+                <h1>Celebrating Love & Legacy</h1>
+                <p class="subtitle">Share your heartfelt messages, memories, and photos for this incredible milestone</p>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalMessages">0</div>
+                    <div class="stat-label">Messages</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalHearts">0</div>
+                    <div class="stat-label">Hearts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalPhotos">0</div>
+                    <div class="stat-label">Photos</div>
+                </div>
+            </div>
+
+            <form id="messageForm">
+                <div class="form-group">
+                    <label for="name">Your Name <span class="required">*</span></label>
+                    <input type="text" id="name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label>Your Relationship <span class="required">*</span></label>
+                    <div class="relationship-options">
+                        <div class="relationship-option">
+                            <input type="radio" id="rel-family" name="relationship" value="Family" required>
+                            <label for="rel-family">👨‍👩‍👧‍👦 Family</label>
+                        </div>
+                        <div class="relationship-option">
+                            <input type="radio" id="rel-friend" name="relationship" value="Friend">
+                            <label for="rel-friend">🤝 Friend</label>
+                        </div>
+                        <div class="relationship-option">
+                            <input type="radio" id="rel-colleague" name="relationship" value="Colleague">
+                            <label for="rel-colleague">💼 Colleague</label>
+                        </div>
+                        <div class="relationship-option">
+                            <input type="radio" id="rel-neighbor" name="relationship" value="Neighbor">
+                            <label for="rel-neighbor">🏘️ Neighbor</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Your Message <span class="required">*</span></label>
+                    <textarea id="message" required placeholder="Share your favorite memory, well wishes, or what their love and friendship means to you..." maxlength="1000"></textarea>
+                    <div class="char-counter"><span id="charCount">0</span>/1000 characters</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Add a Photo (Optional)</label>
+                    <div class="photo-upload" id="photoUpload">
+                        <div style="font-size: 40px; margin-bottom: 10px;">📸</div>
+                        <div style="color: #4a5568; font-weight: 500; margin-bottom: 5px;">Click to upload or drag & drop</div>
+                        <div style="color: #a0aec0; font-size: 14px;">Share a special memory photo</div>
+                        <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="photo-preview" id="photoPreview"></div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>💝 Send Your Message</span>
+                </button>
+            </form>
+
+            <div class="messages-section">
+                <div class="messages-header">
+                    <h2 class="messages-title">💌 Messages of Love</h2>
+                </div>
+
+                <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search messages...">
+
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="Family">Family</button>
+                    <button class="filter-btn" data-filter="Friend">Friends</button>
+                    <button class="filter-btn" data-filter="Colleague">Colleagues</button>
+                </div>
+
+                <div id="messagesList">
+                    <div class="no-messages">✨ No messages yet. Be the first to share your love! 💝</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification success" id="notification">
+        <div class="notification-title">✨ Success!</div>
+        <div class="notification-text">Your message has been sent! The organizer will be notified.</div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel">
+        <button class="admin-toggle" onclick="toggleAdminMenu()">⚙️</button>
+        <div class="admin-menu" id="adminMenu">
+            <h3 style="margin-bottom: 15px; color: #2d3748;">Admin Tools</h3>
+            <div class="admin-option" onclick="exportMessages()">
+                📥 Export All Messages
+            </div>
+            <div class="admin-option" onclick="clearAllMessages()">
+                🗑️ Clear All Messages
+            </div>
+            <div class="admin-option" onclick="toggleNotifications()">
+                <span id="notifIcon">🔔</span> Notifications: <span id="notifStatus">ON</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const STORAGE_KEY = 'anniversary-messages-v2';
+        const HEARTS_KEY = 'message-hearts';
+        const NOTIF_KEY = 'notifications-enabled';
+        let currentFilter = 'all';
+        let uploadedPhoto = null;
+
+        // Initialize floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+            const hearts = ['💕', '💖', '💗', '💝', '💓', '💞'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (10 + Math.random() * 10) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 20000);
+            }, 3000);
+        }
+
+        // Character counter
+        document.getElementById('message').addEventListener('input', function() {
+            document.getElementById('charCount').textContent = this.value.length;
+        });
+
+        // Photo upload
+        const photoUpload = document.getElementById('photoUpload');
+        const photoInput = document.getElementById('photoInput');
+        const photoPreview = document.getElementById('photoPreview');
+
+        photoUpload.addEventListener('click', () => photoInput.click());
+
+        photoUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            photoUpload.classList.add('dragover');
+        });
+
+        photoUpload.addEventListener('dragleave', () => {
+            photoUpload.classList.remove('dragover');
+        });
+
+        photoUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            photoUpload.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handlePhotoUpload(file);
+            }
+        });
+
+        photoInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handlePhotoUpload(file);
+            }
+        });
+
+        function handlePhotoUpload(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedPhoto = e.target.result;
+                photoPreview.innerHTML = `
+                    <img src="${uploadedPhoto}" alt="Preview">
+                    <div style="margin-top: 10px;">
+                        <button type="button" onclick="removePhoto()" style="padding: 8px 16px; background: #e53e3e; color: white; border: none; border-radius: 8px; cursor: pointer;">Remove Photo</button>
+                    </div>
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removePhoto() {
+            uploadedPhoto = null;
+            photoPreview.innerHTML = '';
+            photoInput.value = '';
+        }
+
+        // Load messages from storage
+        async function loadStoredMessages() {
+            try {
+                if (window.storage) {
+                    const result = await window.storage.get(STORAGE_KEY, true);
+                    return result ? JSON.parse(result.value) : [];
+                } else {
+                    const stored = localStorage.getItem(STORAGE_KEY);
+                    return stored ? JSON.parse(stored) : [];
+                }
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                return [];
+            }
+        }
+
+        // Save messages
+        async function saveMessages(messages) {
+            try {
+                if (window.storage) {
+                    await window.storage.set(STORAGE_KEY, JSON.stringify(messages), true);
+                } else {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+                }
+            } catch (error) {
+                console.error('Error saving messages:', error);
+            }
+        }
+
+        // Load hearts
+        async function loadHearts() {
+            try {
+                if (window.storage) {
+                    const result = await window.storage.get(HEARTS_KEY, true);
+                    return result ? JSON.parse(result.value) : {};
+                } else {
+                    const stored = localStorage.getItem(HEARTS_KEY);
+                    return stored ? JSON.parse(stored) : {};
+                }
+            } catch (error) {
+                return {};
+            }
+        }
+
+        // Save hearts
+        async function saveHearts(hearts) {
+            try {
+                if (window.storage) {
+                    await window.storage.set(HEARTS_KEY, JSON.stringify(hearts), true);
+                } else {
+                    localStorage.setItem(HEARTS_KEY, JSON.stringify(hearts));
+                }
+            } catch (error) {
+                console.error('Error saving hearts:', error);
+            }
+        }
+
+        // Update statistics
+        async function updateStats() {
+            const messages = await loadStoredMessages();
+            const hearts = await loadHearts();
+            
+            document.getElementById('totalMessages').textContent = messages.length;
+            
+            const totalHearts = Object.values(hearts).reduce((sum, count) => sum + count, 0);
+            document.getElementById('totalHearts').textContent = totalHearts;
+            
+            const photosCount = messages.filter(m => m.photo).length;
+            document.getElementById('totalPhotos').textContent = photosCount;
+        }
+
+        // Display messages
+        async function displayMessages(filter = 'all', searchTerm = '') {
+            const messagesList = document.getElementById('messagesList');
+            const messages = await loadStoredMessages();
+            const hearts = await loadHearts();
+
+            let filteredMessages = messages;
+
+            if (filter !== 'all') {
+                filteredMessages = messages.filter(m => m.relationship === filter);
+            }
+
+            if (searchTerm) {
+                filteredMessages = filteredMessages.filter(m => 
+                    m.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    m.message.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+
+            if (filteredMessages.length === 0) {
+                messagesList.innerHTML = '<div class="no-messages">✨ No messages found. ' + 
+                    (filter !== 'all' || searchTerm ? 'Try a different filter or search term.' : 'Be the first to share your love! 💝') + '</div>';
+                return;
+            }
+
+            messagesList.innerHTML = filteredMessages
+                .sort((a, b) => b.timestamp - a.timestamp)
+                .map(msg => `
+                    <div class="message-card">
+                        <div class="message-header">
+                            <div class="message-author">${escapeHtml(msg.name)}</div>
+                            <div class="relationship-badge">${msg.relationship}</div>
+                        </div>
+                        <div class="message-text">${escapeHtml(msg.message)}</div>
+                        ${msg.photo ? `<div class="message-photo"><img src="${msg.photo}" alt="Memory photo"></div>` : ''}
+                        <div class="message-footer">
+                            <div class="message-time">${formatTime(msg.timestamp)}</div>
+                            <button class="heart-btn ${hearts[msg.id] > 0 ? 'loved' : ''}" onclick="toggleHeart('${msg.id}')">
+                                ${hearts[msg.id] > 0 ? '❤️' : '🤍'} ${hearts[msg.id] || 0}
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        // Toggle heart
+        async function toggleHeart(messageId) {
+            const hearts = await loadHearts();
+            hearts[messageId] = (hearts[messageId] || 0) + 1;
+            await saveHearts(hearts);
+            await displayMessages(currentFilter);
+            await updateStats();
+        }
+
+        // Format time
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
+            
+            const diffHours = Math.floor(diffMins / 60);
+            if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            
+            const diffDays = Math.floor(diffHours / 24);
+            if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+            
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Show notification
+        function showNotification(title, text) {
+            const notification = document.getElementById('notification');
+            notification.querySelector('.notification-title').textContent = title;
+            notification.querySelector('.notification-text').textContent = text;
+            notification.classList.add('show');
+            
+            // Also show browser notification if supported
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(title, { body: text, icon: '💝' });
+            }
+            
+            setTimeout(() => notification.classList.remove('show'), 5000);
+        }
+
+        // Send notification (simulate SMS)
+        async function sendNotification(name, message, relationship) {
+            const notificationsEnabled = localStorage.getItem(NOTIF_KEY) !== 'false';
+            
+            if (!notificationsEnabled) return;
+            
+            console.log('📱 NEW MESSAGE NOTIFICATION');
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log(`From: ${name} (${relationship})`);
+            console.log(`Message: ${message.substring(0, 100)}${message.length > 100 ? '...' : ''}`);
+            console.log(`Time: ${new Date().toLocaleString()}`);
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            
+            // Request notification permission if not granted
+            if ('Notification' in window && Notification.permission === 'default') {
+                await Notification.requestPermission();
+            }
+        }
+
+        // Form submission
+        document.getElementById('messageForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.submit-btn');
+            const name = document.getElementById('name').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const relationship = document.querySelector('input[name="relationship"]:checked')?.value;
+            
+            if (!name || !message || !relationship) {
+                showNotification('⚠️ Oops!', 'Please fill in all required fields.');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>✨ Sending...</span>';
+            
+            try {
+                const newMessage = {
+                    id: Date.now().toString(),
+                    name,
+                    message,
+                    relationship,
+                    photo: uploadedPhoto,
+                    timestamp: Date.now()
+                };
+                
+                const messages = await loadStoredMessages();
+                messages.push(newMessage);
+                await saveMessages(messages);
+                
+                await sendNotification(name, message, relationship);
+                
+                showNotification('✨ Success!', 'Your message has been sent! The organizer will be notified.');
+                
+                this.reset();
+                uploadedPhoto = null;
+                photoPreview.innerHTML = '';
+                
+                await displayMessages(currentFilter);
+                await updateStats();
+                
+            } catch (error) {
+                console.error('Error submitting message:', error);
+                showNotification('❌ Error', 'There was an error sending your message. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>💝 Send Your Message</span>';
+            }
+        });
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                displayMessages(currentFilter, document.getElementById('searchBox').value);
+            });
+        });
+
+        // Search
+        document.getElementById('searchBox').addEventListener('input', function() {
+            displayMessages(currentFilter, this.value);
+        });
+
+        // Admin functions
+        function toggleAdminMenu() {
+            document.getElementById('adminMenu').classList.toggle('show');
+        }
+
+        async function exportMessages() {
+            const messages = await loadStoredMessages();
+            const dataStr = JSON.stringify(messages, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `anniversary-messages-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            showNotification('📥 Exported!', 'All messages have been downloaded.');
+        }
+
+        async function clearAllMessages() {
+            if (confirm('Are you sure you want to delete ALL messages? This cannot be undone!')) {
+                await saveMessages([]);
+                await saveHearts({});
+                await displayMessages();
+                await updateStats();
+                showNotification('🗑️ Cleared!', 'All messages have been deleted.');
+            }
+        }
+
+        function toggleNotifications() {
+            const current = localStorage.getItem(NOTIF_KEY) !== 'false';
+            localStorage.setItem(NOTIF_KEY, (!current).toString());
+            updateNotificationUI();
+            showNotification(current ? '🔕 Disabled' : '🔔 Enabled', 
+                `Notifications ${current ? 'disabled' : 'enabled'} successfully.`);
+        }
+
+        function updateNotificationUI() {
+            const enabled = localStorage.getItem(NOTIF_KEY) !== 'false';
+            document.getElementById('notifIcon').textContent = enabled ? '🔔' : '🔕';
+            document.getElementById('notifStatus').textContent = enabled ? 'ON' : 'OFF';
+        }
+
+        // Close admin menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const adminPanel = document.querySelector('.admin-panel');
+            if (!adminPanel.contains(e.target)) {
+                document.getElementById('adminMenu').classList.remove('show');
+            }
+        });
+
+        // Initialize
+        createFloatingHearts();
+        displayMessages();
+        updateStats();
+        updateNotificationUI();
+
+        // Refresh every 30 seconds
+        setInterval(() => {
+            displayMessages(currentFilter, document.getElementById('searchBox').value);
+            updateStats();
+        }, 30000);
+
+        // Setup instructions
+        console.log('%c🎉 50th Anniversary Message Board', 'font-size: 24px; font-weight: bold; color: #667eea;');
+        console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #cbd5e0;');
+        console.log('%c📱 PHONE NOTIFICATION SETUP:', 'font-size: 16px; font-weight: bold; color: #764ba2;');
+        console.log('%cOption 1 - IFTTT (Easiest):', 'font-weight: bold; color: #48bb78;');
+        console.log('   1. Go to ifttt.com and create a free account');
+        console.log('   2. Create a new applet with Webhooks trigger');
+        console.log('   3. Add SMS or rich notification action');
+        console.log('   4. You\'ll get notifications on your phone!');
+        console.log('%cOption 2 - Zapier:', 'font-weight: bold; color: #48bb78;');
+        console.log('   Similar to IFTTT with more customization options');
+        console.log('%cOption 3 - Twilio (Advanced):', 'font-weight: bold; color: #48bb78;');
+        console.log('   For actual SMS messages to your phone number');
+        console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #cbd5e0;');
+        console.log('%cFor now, new messages will appear in this console! 🎊', 'font-size: 14px; color: #667eea;');
+    </script>
+</body>
+</html>
