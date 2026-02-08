@@ -243,38 +243,6 @@
             transform: translateY(-2px);
         }
 
-        .photo-upload {
-            border: 3px dashed #cbd5e0;
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #f7fafc;
-        }
-
-        .photo-upload:hover {
-            border-color: #667eea;
-            background: #edf2f7;
-        }
-
-        .photo-upload.dragover {
-            border-color: #667eea;
-            background: #e6f0ff;
-        }
-
-        .photo-preview {
-            margin-top: 15px;
-            text-align: center;
-        }
-
-        .photo-preview img {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
         .submit-btn {
             width: 100%;
             padding: 18px;
@@ -502,18 +470,6 @@
             font-size: 15px;
         }
 
-        .message-photo {
-            margin: 15px 0;
-            text-align: center;
-        }
-
-        .message-photo img {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
         .message-footer {
             display: flex;
             justify-content: space-between;
@@ -694,8 +650,8 @@
                     <div class="stat-label">Hearts</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="totalPhotos">0</div>
-                    <div class="stat-label">Photos</div>
+                    <div class="stat-number" id="totalPeople">0</div>
+                    <div class="stat-label">Well-Wishers</div>
                 </div>
             </div>
 
@@ -731,17 +687,6 @@
                     <label for="message">Your Message <span class="required">*</span></label>
                     <textarea id="message" required placeholder="Share your favorite memory, well wishes, or what their love and friendship means to you..." maxlength="1000"></textarea>
                     <div class="char-counter"><span id="charCount">0</span>/1000 characters</div>
-                </div>
-
-                <div class="form-group">
-                    <label>Add a Photo (Optional)</label>
-                    <div class="photo-upload" id="photoUpload">
-                        <div style="font-size: 40px; margin-bottom: 10px;">📸</div>
-                        <div style="color: #4a5568; font-weight: 500; margin-bottom: 5px;">Click to upload or drag & drop</div>
-                        <div style="color: #a0aec0; font-size: 14px;">Share a special memory photo</div>
-                        <input type="file" id="photoInput" accept="image/*" style="display: none;">
-                    </div>
-                    <div class="photo-preview" id="photoPreview"></div>
                 </div>
 
                 <button type="submit" class="submit-btn">
@@ -799,7 +744,6 @@
         const HEARTS_KEY = 'message-hearts';
         const NOTIF_KEY = 'notifications-enabled';
         let currentFilter = 'all';
-        let uploadedPhoto = null;
 
         // Initialize floating hearts
         function createFloatingHearts() {
@@ -824,62 +768,11 @@
             document.getElementById('charCount').textContent = this.value.length;
         });
 
-        // Photo upload
-        const photoUpload = document.getElementById('photoUpload');
-        const photoInput = document.getElementById('photoInput');
-        const photoPreview = document.getElementById('photoPreview');
-
-        photoUpload.addEventListener('click', () => photoInput.click());
-
-        photoUpload.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            photoUpload.classList.add('dragover');
-        });
-
-        photoUpload.addEventListener('dragleave', () => {
-            photoUpload.classList.remove('dragover');
-        });
-
-        photoUpload.addEventListener('drop', (e) => {
-            e.preventDefault();
-            photoUpload.classList.remove('dragover');
-            const file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('image/')) {
-                handlePhotoUpload(file);
-            }
-        });
-
-        photoInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                handlePhotoUpload(file);
-            }
-        });
-
-        function handlePhotoUpload(file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                uploadedPhoto = e.target.result;
-                photoPreview.innerHTML = `
-                    <img src="${uploadedPhoto}" alt="Preview">
-                    <div style="margin-top: 10px;">
-                        <button type="button" onclick="removePhoto()" style="padding: 8px 16px; background: #e53e3e; color: white; border: none; border-radius: 8px; cursor: pointer;">Remove Photo</button>
-                    </div>
-                `;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function removePhoto() {
-            uploadedPhoto = null;
-            photoPreview.innerHTML = '';
-            photoInput.value = '';
-        }
-
-        // Load messages from storage
+        // Load messages from storage (SHARED - everyone sees all messages!)
         async function loadStoredMessages() {
             try {
                 if (window.storage) {
+                    // Using shared storage so ALL visitors see the same messages!
                     const result = await window.storage.get(STORAGE_KEY, true);
                     return result ? JSON.parse(result.value) : [];
                 } else {
@@ -892,10 +785,11 @@
             }
         }
 
-        // Save messages
+        // Save messages (SHARED - saves for everyone!)
         async function saveMessages(messages) {
             try {
                 if (window.storage) {
+                    // Using shared=true so everyone sees these messages!
                     await window.storage.set(STORAGE_KEY, JSON.stringify(messages), true);
                 } else {
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
@@ -905,10 +799,11 @@
             }
         }
 
-        // Load hearts
+        // Load hearts (SHARED - everyone sees total hearts!)
         async function loadHearts() {
             try {
                 if (window.storage) {
+                    // Using shared storage for hearts too!
                     const result = await window.storage.get(HEARTS_KEY, true);
                     return result ? JSON.parse(result.value) : {};
                 } else {
@@ -920,10 +815,11 @@
             }
         }
 
-        // Save hearts
+        // Save hearts (SHARED - everyone sees the same heart counts!)
         async function saveHearts(hearts) {
             try {
                 if (window.storage) {
+                    // Using shared=true for hearts!
                     await window.storage.set(HEARTS_KEY, JSON.stringify(hearts), true);
                 } else {
                     localStorage.setItem(HEARTS_KEY, JSON.stringify(hearts));
@@ -943,8 +839,8 @@
             const totalHearts = Object.values(hearts).reduce((sum, count) => sum + count, 0);
             document.getElementById('totalHearts').textContent = totalHearts;
             
-            const photosCount = messages.filter(m => m.photo).length;
-            document.getElementById('totalPhotos').textContent = photosCount;
+            const uniquePeople = new Set(messages.map(m => m.name.toLowerCase())).size;
+            document.getElementById('totalPeople').textContent = uniquePeople;
         }
 
         // Display messages
@@ -981,7 +877,6 @@
                             <div class="relationship-badge">${msg.relationship}</div>
                         </div>
                         <div class="message-text">${escapeHtml(msg.message)}</div>
-                        ${msg.photo ? `<div class="message-photo"><img src="${msg.photo}" alt="Memory photo"></div>` : ''}
                         <div class="message-footer">
                             <div class="message-time">${formatTime(msg.timestamp)}</div>
                             <button class="heart-btn ${hearts[msg.id] > 0 ? 'loved' : ''}" onclick="toggleHeart('${msg.id}')">
@@ -1084,7 +979,6 @@
                     name,
                     message,
                     relationship,
-                    photo: uploadedPhoto,
                     timestamp: Date.now()
                 };
                 
@@ -1094,11 +988,9 @@
                 
                 await sendNotification(name, message, relationship);
                 
-                showNotification('✨ Success!', 'Your message has been sent! The organizer will be notified.');
+                showNotification('✨ Success!', 'Your message has been sent! Everyone can now see it.');
                 
                 this.reset();
-                uploadedPhoto = null;
-                photoPreview.innerHTML = '';
                 
                 await displayMessages(currentFilter);
                 await updateStats();
@@ -1182,15 +1074,18 @@
         updateStats();
         updateNotificationUI();
 
-        // Refresh every 30 seconds
+        // Refresh every 10 seconds (auto-updates so everyone sees new messages!)
         setInterval(() => {
             displayMessages(currentFilter, document.getElementById('searchBox').value);
             updateStats();
-        }, 30000);
+        }, 10000);
 
         // Setup instructions
         console.log('%c🎉 50th Anniversary Message Board', 'font-size: 24px; font-weight: bold; color: #667eea;');
         console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #cbd5e0;');
+        console.log('%c🌐 SHARED MESSAGE BOARD - Everyone sees all messages!', 'font-size: 16px; font-weight: bold; color: #48bb78;');
+        console.log('%c✅ Auto-refreshes every 10 seconds', 'font-size: 14px; color: #4a5568;');
+        console.log('');
         console.log('%c📱 PHONE NOTIFICATION SETUP:', 'font-size: 16px; font-weight: bold; color: #764ba2;');
         console.log('%cOption 1 - IFTTT (Easiest):', 'font-weight: bold; color: #48bb78;');
         console.log('   1. Go to ifttt.com and create a free account');
